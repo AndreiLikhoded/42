@@ -24,7 +24,7 @@ public class ServerWork {
                 }
                 for (var r : EchoServer.serverList) {
                     sendResponse(message.toUpperCase(), getWriter(r));
-                    if(!EchoServer.serverList.equals(EchoServer.serverList)){
+                    if(!writer.equals(EchoServer.serverList)){
                         sendResponse(message.toUpperCase(), getWriter(r));
                     }
                 }
