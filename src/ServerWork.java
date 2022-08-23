@@ -1,12 +1,15 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerWork {
-    public static void handle(Socket socket){
-        System.out.printf("Client is on: %s%n", socket);
 
+
+    public static void handle(Socket socket){
+
+        System.out.printf("Client is on: %s%n", socket);
 
         try(Scanner reader = getReader(socket);
             PrintWriter writer = getWriter(socket);
@@ -19,8 +22,12 @@ public class ServerWork {
                 if(isEmptyMsg(message) || isQuitMsg(message)){
                     break;
                 }
-
-                sendResponse(message.toUpperCase(), writer);
+                for (var r : EchoServer.serverList) {
+                    sendResponse(message.toUpperCase(), getWriter(r));
+                    if(!EchoServer.serverList.equals(EchoServer.serverList)){
+                        sendResponse(message.toUpperCase(), getWriter(r));
+                    }
+                }
             }
         }catch (NoSuchElementException e){
             System.out.println("Client dropped the connection!");
